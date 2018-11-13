@@ -1,6 +1,6 @@
 .data
 # crear un arreglo con espacio para 11 numeros enteros
-      myArray: .space 44
+      myArray: .space 64
 # Creando variables de etiquetas 
 	saludo: .asciiz "**********************Suma de Fibonacci\n**********************"
 	pedir_numero: .asciiz "Coloca el numero limite de la serie:\n"
@@ -9,7 +9,7 @@
 .text
 main:
 # load immediate carga el valor de 11 en $v1
-li $v1,11
+li $v1,21
 add $t0,$zero,$zero
 addi $t1,$zero,1
 
