@@ -8,7 +8,7 @@
 	
 .text
 main:
-# load immediate carga el valor de 11 en $v1
+# load immediate carga el valor de 21 en $v1
 li $v1,21
 add $t0,$zero,$zero
 addi $t1,$zero,1
