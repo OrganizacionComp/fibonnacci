@@ -10,7 +10,7 @@
 main:
 # load immediate carga el valor de 11 en $v1
 li $v1,11
-addi $t0,$zero,1
+add $t0,$zero,$zero
 addi $t1,$zero,1
 
 # coloca inicialmente en $at se guarda el puntero al inicio de myArray
