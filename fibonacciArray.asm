@@ -47,7 +47,8 @@ sll $s0,$t1,2
 
 # al el valor de $at se modifica por lo cual usaremos $s3 como puntero a myArray
 sw $t1,myArray($s0)	
-	
+
+#Funcion que llena el arreglo	
 # si $v1 es igual a cero retorna 0 en $v0
 beq $v1,$zero,fail0
 
@@ -101,6 +102,7 @@ addi $t2,$t2,1
 
 # se salta al inicio del ciclo
 j loop1
+#final del llenado del arreglo
 
 fail0:
 addi $v0,$zero,1
@@ -122,7 +124,7 @@ la $a0, delimitador
 syscall
 
 
-# Segundo parte del proyecto imprimir el numero de oro mas proximo
+# Segundo parte del proyecto funcion para imprimir el numero de oro mas proximo
 # mientras mas larga sea la suma mas exacto llegara a ser el número de oro
 
 # ****************************************************************************************************************
