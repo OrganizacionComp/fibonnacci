@@ -1,17 +1,42 @@
 .data
 # crear un arreglo con espacio para 11 numeros enteros
-      myArray: .space 64
+      myArray: .space 100		# aqui se debe de multiplicar por 4 las cantidades de números de la serie que debemos de calcular
 # Creando variables de etiquetas 
-	saludo: .asciiz "**********************Suma de Fibonacci\n**********************"
-	pedir_numero: .asciiz "Coloca el numero limite de la serie:\n"
-	mensaje_num_oro: .asciiz "El numero de oro mas proximo es:\n "
+	saludo: .asciiz "**********************Suma de Fibonacci**********************\n"
+	delimitador: .asciiz "*********************************************************\n"
+	mensaje_num_oro: .asciiz "El numero de oro mas proximo de la serie es:\n "
+	coma: .asciiz ","
+	salto: .asciiz "\n"
+	num_oro_m: .asciiz "El verdadero número de oro es: \n"
+	num_oro: .double 1.61803398874988
+	
 	
 .text
 main:
 # load immediate carga el valor de 21 en $v1
-li $v1,21
+li $v1,25		# Se ingresa la cantidad de números que queremos calcular
 add $t0,$zero,$zero
 addi $t1,$zero,1
+
+# ******** Para mostrar los 2 primero números de la serie ****
+li $v0,4
+la $a0, saludo
+syscall
+
+li $v0,1		# se avisa que se mostrar un mensaje tipo int
+move $a0,$t0		# se mueve lo que este en $t0 a $a0
+syscall			# muestra lo que este en $a0
+
+li $v0,4		# se avisa que se mostrar un mensaje tipo string		
+la $a0,coma		# se mueve lo que este en $t0 a $a0
+syscall			# muestra lo que este en $a0
+ 
+
+li $v0,1		# se avisa que se mostrar un mensaje tipo int
+move $a0,$t1
+syscall
+
+# ****************************************************************
 
 # coloca inicialmente en $at se guarda el puntero al inicio de myArray
 sw $t0,myArray($t0)		#se inicializa el primer valor del array a 1
@@ -63,6 +88,13 @@ add $t9,$t9,$s3
 
 # se guarda el valor de $t0 en el ultimo bloque vacio
 sw $t0,0($t9)
+li $v0,4
+la $a0,coma
+syscall 
+
+li $v0,1
+move $a0,$t0
+syscall
 
 # funciona como el i++ de un for
 addi $t2,$t2,1
@@ -80,18 +112,48 @@ final:
 # se guarda en $v0 el ultimo valor del arreglo
 add $v0,$zero,$t0
 
-#Para imprimir el numero de oro
+# Esto es para al final de la seria agregar el salto de linea
+li $v0, 4		
+la $a0, salto
+syscall 
+
+li $v0,4
+la $a0, delimitador
+syscall
+
+
+# Segundo parte del proyecto imprimir el numero de oro mas proximo
+# mientras mas larga sea la suma mas exacto llegara a ser el número de oro
+
+# ****************************************************************************************************************
+#Para imprimir el mensaje de numero de oro
 li $v0, 4		
 la $a0, mensaje_num_oro
 syscall 
 
+
 #Se muestra en pantalla el resultado del numero de oro  
-mtc1 $t0,$f1		# convirtiendo el ultimo numero de la serie a flotante
-mtc1 $t7,$f2		# convirtiendo el penultimo número de la serie a flotante
+mtc1 $t0,$f1		# convirtiendo el último número de la serie a flotante
+mtc1 $t7,$f2		# convirtiendo el penúltimo número de la serie a flotante
 div.s $f3,$f1,$f2	# dividiendo ambos números y guardandoloes en f3(como flotantes con una precision simple) 
 li $v0,2		# Se va imprimir un flotante
 movf.s $f12,$f3		# se movera a f12(aqui van los flotantes a imprimirse) lo que este en f3
 syscall 		# llamada al sistema
 
+# Se agrega un salto de linea
+li $v0, 4		
+la $a0, salto
+syscall 
 
+# Mostrando el verdadero número de oro
+li $v0, 4		
+la $a0, num_oro_m
+syscall 
+
+ldc1 $f2,num_oro
+li $v0,3
+movf.d $f12,$f2 	# Lee lo que esta en num_oro para ponerlo en pantalla
+syscall
+
+# *******************************************************************************************************************
 
